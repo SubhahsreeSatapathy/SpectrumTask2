@@ -1,0 +1,59 @@
+<%- include('partials/header') %>
+<body>
+  <section id="login" class="register">
+    <div class="login">
+        <h1>Register</h1>
+        <form action="/register" method="post">
+            <div class="imgcontainer">
+             <i class="fas fa-user-plus"></i>
+            </div>
+          
+            <div class="container">
+              <label for="name"><b>Full Name</b></label>
+              <input type="text" placeholder="Enter Full Name" name="name" required>
+
+              <label for="email"><b>Email Id</b></label>
+              <input type="text" placeholder="Enter Email Id" name="email" required>
+
+              <label for="phno"><b>Phone No</b></label>
+              <input type="text" placeholder="Enter Phone Number" name="phno" required>
+
+              <div class='ipFlex'> 
+               <div>
+                <label for="branch"><b>Branch</b></label>
+                <select name="branch" id="branch">
+                    <option >-Select branch-</option>
+                    <option value="btech">B.Tech</option>
+                    <option value="mca">MCA</option>
+                    <option value="barch">B.Arch</option>
+                    <option value="bplan">B.Plan</option>
+                    <option value="msc">Msc</option>
+                </select>
+               </div>
+               <div>
+                <label for="dob"><b>Date Of birth</b></label>
+                <input type="date" placeholder="Enter DOb" name="dob" required>
+               </div>
+              </div>
+
+              <label for="password"><b>Password</b></label>
+              <input type="text" placeholder="Enter Password" name="password" required>
+
+              <label for="cpassword"><b>Confirm Password</b></label>
+              <input type="text" placeholder="Enter Confirm Password" name="cpassword" required>
+              
+              <div class="button">
+                <button type="reset">Reset</button>
+                <button type="submit">Register</button>
+              </div>
+            </div>
+          
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" onclick="window.location.href='/'" class="cancelbtn">Back</button>
+              <span class="signuplink">Already an user? <a href="/login">Log In</a></span>
+            </div>
+          </form>
+       </div>
+  </section>
+</body>
+</html>
