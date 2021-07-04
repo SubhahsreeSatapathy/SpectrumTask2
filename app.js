@@ -1,61 +1,104 @@
-const express=require('express');
-const app=express();
+const express = require('express');
+const app = express();
 const mysql = require('mysql2');
-const bodyParser=require('body-parser');
+const bodyParser = require('body-parser');
+const e = require('express');
 const conn = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "root",
-    insecureAuth : true,
+    insecureAuth: true,
     database: "spectrum"
-  });
-  
-conn.connect((err)=>{
-if (err) throw err;
-console.log("DB Connected!");
+});
+
+conn.connect((err) => {
+    if (err) throw err;
+    console.log("DB Connected!");
 
 });
 
 
 
+//Global variables
 
-let login=false;
-let msg="";
+let login = false;
+let msg = "";
+
+//Body parser
 
 app.use(express.urlencoded({ extended: true }));
+
 // EJS
 app.set('view engine', 'ejs');
 
 // Public Folder
 app.use(express.static('./public'));
 
-
-app.get('/',(req,res)=>{
-     res.render('index',{login})
+//APIS
+app.get('/', (req, res) => {
+    msg=""
+    res.render('index', { login })
 })
-app.get('/login',(req,res)=>{
-     res.render('login')
+app.get('/login', (req, res) => {
+    res.render('login', { msg })
 })
-app.get('/register',(req,res)=>{
-     res.render('register')
+app.get('/register', (req, res) => {
+    res.render('register', { msg })
 })
-app.get('/logout',(req,res)=>{
-    login=false;
+app.get('/logout', (req, res) => {
+    login = false;
     res.redirect('/')
 })
-app.post('/login',(req,res)=>{
-    login=true;
-    res.redirect('/')
+app.post('/login', (req, res) => {
+    const { uname, password } = req.body;
+    const sql = "SELECT * FROM `user` WHERE (`email`='" + uname + "' OR `phno`= '" + uname + "' ) AND `password`='" + password + "'";
+    conn.query(sql, (err, result) => {
+        if (err) {
+            msg = "Login Failed!";
+            res.redirect('/login');
+        } if (result.length == 0) {
+            msg = "No User Found!";
+            res.redirect('/login');
+        } else {
+            login = true;
+            msg="";
+            res.redirect('/')
+        }
+    })
 })
-app.post('/register',(req,res)=>{
-    const {name, email, phno, branch, dob, password}=req.body;
-    var sql = "INSERT INTO `user` (`name`, `email`, `phno`, `branch`, `dob`, `password`) VALUES ('"+name+"','"+ email+"','"+ phno+"','"+ branch+"','"+ dob+"','"+ password+"')";
-    conn.query(sql, function (err, result) {
-        if (err) throw err;
-       
+app.post('/register', (req, res) => {
+    const { name, email, phno, branch, dob, password } = req.body;
+    var sql = "INSERT INTO `user` (`name`, `email`, `phno`, `branch`, `dob`, `password`) VALUES ('" + name + "','" + email + "','" + phno + "','" + branch + "','" + dob + "','" + password + "')";
+    conn.query(sql, function (err) {
+        if (err) {
+            msg = "Registeration Failed!"
+            res.redirect('/register')
+        }
+        else {
+            msg = "Registered Successfully!"
+            res.redirect('/login')
+        }
     });
 })
 
+app.get('/profile',(req,res)=>{
+    
+})
+
+app.get('/feedback',(req,res)=>{
+    const { name, phone, subject } = req.body;
+    var sql = "INSERT INTO `feedback` (`name`, `phone`, `subject`) VALUES ('" + name + "','" + phone + "','" + subject + "')";
+    conn.query(sql, function (err) {
+        if (err) {
+            msg = "Registeration Failed!"
+            res.redirect('/register')
+        }
+        else {
+            msg = "Registered Successfully!"
+            res.redirect('/login')
+        }
+    });
+})
 
 const port = 4004;
 

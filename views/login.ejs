@@ -1,5 +1,12 @@
 <%- include('partials/header') %>
 <body>
+    <% if(msg!=="" && msg!==undefined ){ %> 
+        <div class="msg" style="display: flex;" >
+            <%= msg %>
+            <i class="fas fa-times" id="closeMsg"></i>
+        </div>
+    <% } %>
+   
   <section id="login">
     <div class="login">
         <h1>Login</h1>
@@ -28,5 +35,13 @@
           </form>
        </div>
   </section>
+  <script>
+    const closeMsg=document.querySelector('#closeMsg');
+    const msg=document.querySelector('.msg');
+
+    closeMsg.addEventListener('click',()=>{
+        msg.style.display="none";
+    })
+  </script>
 </body>
 </html>
