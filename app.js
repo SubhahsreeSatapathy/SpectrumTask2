@@ -23,7 +23,7 @@ conn.connect((err) => {
 
 let login = false;
 let msg = "";
-
+let userId=null;
 //Body parser
 
 app.use(express.urlencoded({ extended: true }));
@@ -36,8 +36,8 @@ app.use(express.static('./public'));
 
 //APIS
 app.get('/', (req, res) => {
-    msg=""
-    res.render('index', { login })
+    msg = ""
+    res.render('index', { login, userId })
 })
 app.get('/login', (req, res) => {
     res.render('login', { msg })
@@ -61,7 +61,9 @@ app.post('/login', (req, res) => {
             res.redirect('/login');
         } else {
             login = true;
-            msg="";
+            msg = "";
+            userId=result[0].id;
+            console.log(result);
             res.redirect('/')
         }
     })
@@ -81,11 +83,20 @@ app.post('/register', (req, res) => {
     });
 })
 
-app.get('/profile',(req,res)=>{
-    
+app.get('/profile/:id', (req, res) => {
+    const id=parseInt(req.params.id);
+    const sql = "SELECT * FROM `user` WHERE `id`='" + id + "'";
+    conn.query(sql, (err, result) => {
+        console.log(result);
+        res.render('profile',{user:result[0]})
+    });
 })
 
-app.get('/feedback',(req,res)=>{
+app.get("/profiletest",(req,res)=>{
+    res.render('profile',{user:{2:324}})
+})
+
+app.get('/feedback', (req, res) => {
     const { name, phone, subject } = req.body;
     var sql = "INSERT INTO `feedback` (`name`, `phone`, `subject`) VALUES ('" + name + "','" + phone + "','" + subject + "')";
     conn.query(sql, function (err) {

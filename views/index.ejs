@@ -13,7 +13,7 @@
           <% if(!login){ %>
           <li><a class="login" href="/login">Login/SignUp</a></li>
           <% }else{ %>
-          <li><a class="login" href="/profile">Profile</a></li>
+          <li><a class="login" onclick="window.open('/profile/<%= userId %>','_SELF')">Profile</a></li>
           <li><a class="logout" href="/logout"><i class="fas fa-sign-out-alt"></i></a></li>
           <% } %>
         </ul>
