@@ -1,0 +1,28 @@
+<%- include('partials/header') %>
+<body>
+    <section id="profile">
+        <div class="back" onclick="window.location.href='/'"><i class="fas fa-chevron-left"></i><h2>&nbsp;Back</h2></div>
+        <h1 class="profileh1">My Profile</h2>
+        <div class="profile">
+            <% if(user && Object.keys(user).length!=0){ %> 
+                <div class="header">
+                    <i class="fas fa-user"></i>
+                    <h1><%= user.name %></h1>
+                </div>
+                <div class="container">
+                    <h3>Email Id: <%= user.email %></h3>
+                    <h3>Phone Number: <%= user.phno %></h3>
+                    <h3>Branch: <%= user.branch %></h3>
+                    <h3>Date Of Birth: <%= user.dob %></h3>
+                </div>
+                <% }else{ %>
+                    <div>
+                        No Data found !
+                    </div>
+                <% } %>
+        </div>
+    </section>
+
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+<body>
+    <% if(msg!=="" && msg!==undefined ){ %> 
+        <div class="msg" style="display: flex;" >
+            <%= msg %>
+            <i class="fas fa-times" id="closeMsg"></i>
+        </div>
+    <% } %>
+   
+  <section id="login">
+    <div class="login">
+        <h1>Login</h1>
+        <form action="/login" method="post">
+            <div class="imgcontainer">
+             <i class="fas fa-user"></i>
+            </div>
+          
+            <div class="container">
+              <label for="uname"><b>Email / Phone</b></label>
+              <input type="text" placeholder="Enter Username" name="uname" required>
+          
+              <label for="psw"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="password" required>
+          
+              <div class="button">
+                <button type="reset">Reset</button>
+                <button type="submit">Login</button>
+              </div>
+            </div>
+          
+            <div class="container" style="background-color:#f1f1f1">
+              <button type="button" onclick="window.location.href='/'" class="cancelbtn">Back</button>
+              <span class="signuplink">New User? <a href="/register">Register</a></span>
+            </div>
+          </form>
+       </div>
+  </section>
+  <script>
+    const closeMsg=document.querySelector('#closeMsg');
+    const msg=document.querySelector('.msg');
+
+    closeMsg.addEventListener('click',()=>{
+        msg.style.display="none";
+    })
+  </script>
+</body>
+</html>
