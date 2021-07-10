@@ -63,7 +63,6 @@ app.post('/login', (req, res) => {
             login = true;
             msg = "";
             userId=result[0].id;
-            console.log(result);
             res.redirect('/')
         }
     })
